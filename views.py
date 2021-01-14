@@ -84,7 +84,7 @@ def create():
             "save them somewhere, you won't be able to access them again."
 
     return render_template('prioritybasedresourcesassignment/main.html',
-                           form=form)
+                           form=form, submit_string="submit")
 
 
 @prioritybasedresourcesassignment.route('/<key>', methods=["POST", "GET"])
@@ -120,7 +120,7 @@ def submit_preferences(key):
         # TODO mehrfachauswahl nicht erlaubt
 
         return render_template('prioritybasedresourcesassignment/main.html',
-                               form=form)
+                               form=form, submit_string="submit" if process.language == "en" else "absenden")
 
     else:  # post
 
