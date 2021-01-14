@@ -83,9 +83,11 @@ def create():
             "save the links somewhere, you won't be able to access them again."
         return out_html
 
-    return render_template('prioritybasedresourcesassignment/main.html',
-                           form=form, submit_string="submit",
-                           explanation_message="priority-based optimal resource allocation. (source: <a href='https://github.com/PaulAmosKreiner/priority-based-resources-assignment'>github</a>)")
+    return render_template(
+        'prioritybasedresourcesassignment/main.html',
+        form=form, submit_string="submit",
+        explanation_message="tool is in alpha, do not rely on it with considerably large coordination tasks."
+    )
 
 
 @prioritybasedresourcesassignment.route('/<key>', methods=["POST", "GET"])
