@@ -75,10 +75,12 @@ def create():
         finish_link = parti_link + "/finish/" + str(finish_key)
         out_html = get_out_html_header()
         out_html += "participation link is: <a href='" + parti_link + "'>" + \
-            parti_link + "</a>.<br>" + \
+            parti_link + "</a><br>" + \
             "link for finishing up is: <a href='" + finish_link + "'>" + \
-            finish_link + "</a>." + \
-            "save them somewhere, you won't be able to access them again."
+            finish_link + "</a> (using this link will not prevent further " + \
+            "submissions and, based on that, repeated calculations of the " + \
+            "result.)<br>" + \
+            "save the links somewhere, you won't be able to access them again."
         return out_html
 
     return render_template('prioritybasedresourcesassignment/main.html',
