@@ -16,7 +16,7 @@ def create():
 
     class CreateForm(Form):
         options = TextAreaField(
-            label='list all the options here, semicolon-separated',
+            label='list all the resources available for allocation here, semicolon-separated. every resource is assumed to exist once.:',
         )
         #n_preferences = IntegerField(
         #    label='how many preferences everyone should be required to submit',
