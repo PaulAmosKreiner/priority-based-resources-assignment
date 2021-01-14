@@ -2,8 +2,7 @@ import pandas as pd
 import numpy as np
 from scipy.optimize import linprog
 
-import hashlib
-from random import randint
+import secrets
 
 from flask import Blueprint, request, render_template, flash, Response
 
@@ -48,18 +47,16 @@ def create():
 
         # finding a key for this
 
-        full_hash = hashlib.md5(str(options).encode()).hexdigest()
-        found_nonduplicate_hash = False
-        key_kandidate = full_hash[:5]
-        it = 1
-        while not found_nonduplicate_hash:
+        key_kandidate = secrets.token_hex(3)
+        found_nonduplicate_key = False
+        while not found_nonduplicate_key:
             if key_kandidate in assignmentprocesses.keys():
-                key_kandidate = full_hash[it:it+5]
+                key_kandidate = secrets.token_hex(3)
             else:
-                found_nonduplicate_hash = True
+                found_nonduplicate_key = True
         key = key_kandidate
 
-        finish_key = randint(1000, 9999)
+        finish_key = secrets.token_hex(3)
 
         assignmentprocesses.loc[key] = {"language": language,
                                         "options": options,
