@@ -85,8 +85,7 @@ def create():
 
     return render_template('prioritybasedresourcesassignment/main.html',
                            form=form, submit_string="submit",
-                           explanation_message="creating a new assignment "
-                                               "process...")
+                           explanation_message="priority-based optimal resource allocation. (source: <a href='https://github.com/PaulAmosKreiner/priority-based-resources-assignment'>github</a>)")
 
 
 @prioritybasedresourcesassignment.route('/<key>', methods=["POST", "GET"])
