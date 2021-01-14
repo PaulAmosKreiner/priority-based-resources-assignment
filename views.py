@@ -73,15 +73,18 @@ def create():
 
         parti_link = request.url + key
         finish_link = parti_link + "/finish/" + str(finish_key)
-        return \
-            "participation link is: <a href='" + parti_link + "'>" + \
+        out_html = get_out_html_header()
+        out_html += "participation link is: <a href='" + parti_link + "'>" + \
             parti_link + "</a>.<br>" + \
             "link for finishing up is: <a href='" + finish_link + "'>" + \
             finish_link + "</a>." + \
             "save them somewhere, you won't be able to access them again."
+        return out_html
 
     return render_template('prioritybasedresourcesassignment/main.html',
-                           form=form, submit_string="submit")
+                           form=form, submit_string="submit",
+                           explanation_message="creating a new assignment "
+                                               "process...")
 
 
 @prioritybasedresourcesassignment.route('/<key>', methods=["POST", "GET"])
@@ -116,8 +119,20 @@ def submit_preferences(key):
 
         # TODO mehrfachauswahl nicht erlaubt
 
-        return render_template('prioritybasedresourcesassignment/main.html',
-                               form=form, submit_string="submit" if process.language == "en" else "absenden")
+        return render_template(
+            'prioritybasedresourcesassignment/main.html',
+            form=form,
+            submit_string="submit" if process.language == "en" else "Absenden",
+            explanation_message=
+                "if you provide a name that was already taken, the previous "
+                "selection will be overwritten silently. if you provide any of "
+                "the selectables twice (e.g. as your first and second option) "
+                "you will crash the program." if process.language == "en" else
+                "Wenn ein Name angegeben wird der bereits verwendet wurde dann "
+                "wird die vorherige Auswahl durch Absenden überschrieben. "
+                "Bitte keine Option mehrfach wählen (zum Beispiel bei Nr. 1 "
+                "und 2 nicht das gleiche angeben)!"
+        )
 
     else:  # post
 
@@ -134,8 +149,6 @@ def submit_preferences(key):
 
         return "successfully submitted" if process.language == "en" else \
             "erfolgreich übermittelt"
-
-
 
 
 @prioritybasedresourcesassignment.route('/<key>/finish/<finish_key>', methods=["GET"])
@@ -208,9 +221,7 @@ def calculate_result(key, finish_key):
     result = pd.DataFrame(res.x.round().reshape(p.shape), columns=p.columns,
                           index=p.index).astype(int)
 
-    # TODO path anpassen
-    template_path = "prioritybasedresourcesassignment/templates/prioritybasedresourcesassignment/"
-    out_html = open(template_path + "head.html").read()
+    out_html = get_out_html_header()
     out_html += "<p>unassigned persons: " + \
                str(result.columns[result.sum() != 1].values) + \
                "</p><p>unassigned selectables: " + \
@@ -220,3 +231,8 @@ def calculate_result(key, finish_key):
 
     return out_html
 
+
+def get_out_html_header():
+    # TODO path anpassen
+    template_path = "prioritybasedresourcesassignment/templates/prioritybasedresourcesassignment/"
+    return open(template_path + "head.html").read()
