@@ -176,8 +176,6 @@ def calculate_result(key, finish_key):
         for pref in range(len(prefers)):
             p.at[prefers[pref], who] = preflookup[pref]
 
-    print(process)
-
     import warnings
     warnings.filterwarnings("ignore")
 
@@ -222,12 +220,14 @@ def calculate_result(key, finish_key):
                           index=p.index).astype(int)
 
     out_html = get_out_html_header()
+    out_html += "<h3>result</h3>"
     out_html += "<p>unassigned persons: " + \
                str(result.columns[result.sum() != 1].values) + \
                "</p><p>unassigned selectables: " + \
                str(result.index[result.sum(axis=1) != 1].values) + "</p>"
-    out_html += "<br>"
     out_html += result.to_html()
+    out_html += "<br><h3>underlying preference distribution</h3>"
+    out_html += p.to_html()
 
     return out_html
 
