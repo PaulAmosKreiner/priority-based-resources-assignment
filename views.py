@@ -227,6 +227,7 @@ def calculate_result(key, finish_key):
                str(result.index[result.sum(axis=1) != 1].values) + "</p>"
     out_html += result.to_html()
     out_html += "<br><h3>underlying preference distribution</h3>"
+    out_html += "<p>the higher the number the MORE preferable the outcome for the person</p>"
     out_html += p.to_html()
 
     return out_html
