@@ -16,7 +16,7 @@ def create():
 
     class CreateForm(Form):
         options = TextAreaField(
-            label='list all the options here, semicolon-separated',
+            label='list all the resources available for allocation here, semicolon-separated. every resource is assumed to exist once.:',
         )
         #n_preferences = IntegerField(
         #    label='how many preferences everyone should be required to submit',
@@ -75,16 +75,19 @@ def create():
         finish_link = parti_link + "/finish/" + str(finish_key)
         out_html = get_out_html_header()
         out_html += "participation link is: <a href='" + parti_link + "'>" + \
-            parti_link + "</a>.<br>" + \
+            parti_link + "</a><br>" + \
             "link for finishing up is: <a href='" + finish_link + "'>" + \
-            finish_link + "</a>." + \
-            "save them somewhere, you won't be able to access them again."
+            finish_link + "</a> (using this link will not prevent further " + \
+            "submissions and, based on that, repeated calculations of the " + \
+            "result.)<br>" + \
+            "save the links somewhere, you won't be able to access them again."
         return out_html
 
-    return render_template('prioritybasedresourcesassignment/main.html',
-                           form=form, submit_string="submit",
-                           explanation_message="creating a new assignment "
-                                               "process...")
+    return render_template(
+        'prioritybasedresourcesassignment/main.html',
+        form=form, submit_string="submit",
+        explanation_message="tool is in alpha, do not rely on it with considerably large coordination tasks."
+    )
 
 
 @prioritybasedresourcesassignment.route('/<key>', methods=["POST", "GET"])
