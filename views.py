@@ -9,14 +9,17 @@ from flask import Blueprint, request, render_template, Response
 from wtforms import Form
 from wtforms.fields import SelectField, TextAreaField, StringField
 
-prioritybasedresourcesassignment = Blueprint('prioritybasedresourcesassignment', __name__, template_folder='templates')
+prioritybasedresourcesassignment = Blueprint(
+    'prioritybasedresourcesassignment', __name__, template_folder='templates')
 
 @prioritybasedresourcesassignment.route('/', methods=["POST","GET"])
 def create():
 
     class CreateForm(Form):
         options = TextAreaField(
-            label='list all the resources available for allocation here, semicolon-separated. every resource is assumed to exist once.:',
+            label='list all the resources available for allocation here, '
+                  'semicolon-separated. every resource is assumed to exist '
+                  'once.:',
         )
         #n_preferences = IntegerField(
         #    label='how many preferences everyone should be required to submit',
@@ -86,7 +89,8 @@ def create():
     return render_template(
         'prioritybasedresourcesassignment/main.html',
         form=form, submit_string="submit",
-        explanation_message="tool is in alpha, do not rely on it with considerably large coordination tasks."
+        explanation_message="tool is in alpha, do not rely on it with "
+                            "considerably large coordination tasks."
     )
 
 
@@ -230,7 +234,8 @@ def calculate_result(key, finish_key):
                str(result.index[result.sum(axis=1) != 1].values) + "</p>"
     out_html += result.to_html()
     out_html += "<br><h3>underlying preference distribution</h3>"
-    out_html += "<p>the higher the number the MORE preferable the outcome for the person</p>"
+    out_html += "<p>the higher the number the MORE preferable the outcome for" \
+                " the person</p>"
     out_html += p.to_html()
 
     return out_html
