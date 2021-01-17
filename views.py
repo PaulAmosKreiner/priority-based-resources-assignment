@@ -4,10 +4,10 @@ from scipy.optimize import linprog
 
 import secrets
 
-from flask import Blueprint, request, render_template, flash, Response
+from flask import Blueprint, request, render_template, Response
 
 from wtforms import Form
-from wtforms.fields import SelectField, TextAreaField, IntegerField, StringField
+from wtforms.fields import SelectField, TextAreaField, StringField
 
 prioritybasedresourcesassignment = Blueprint('prioritybasedresourcesassignment', __name__, template_folder='templates')
 
